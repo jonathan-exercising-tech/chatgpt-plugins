@@ -1,0 +1,6 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "latex-theory-handouts",
+  "version": "3.0.0",
+  "description": "Editorial A4 theory handouts from supplied lesson content."
+}

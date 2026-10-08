@@ -1,0 +1,6 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "latex-worksheets",
+  "version": "3.0.0",
+  "description": "Editorial A4 worksheets, exercises, and answer keys."
+}

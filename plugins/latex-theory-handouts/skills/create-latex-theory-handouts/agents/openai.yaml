@@ -1,0 +1,9 @@
+interface:
+  display_name: LaTeX Theory Handouts
+  short_description: Create editorial LaTeX theory handouts
+  default_prompt: Use $create-latex-theory-handouts to turn my researched lesson notes
+    into a polished theory handout and verified PDF.
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  allow_implicit_invocation: true

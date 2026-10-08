@@ -1,0 +1,356 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[margin=17mm,bottom=22mm]{geometry}
+\usepackage{fontspec}
+\usepackage{microtype}
+\usepackage[table]{xcolor}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{needspace}
+\usepackage{etoolbox}
+\usepackage[most]{tcolorbox}
+\usepackage{multicol}
+
+% ---------- Fonts: Be Vietnam Pro (text), Fraunces (display), IBM Plex Mono (labels) ----------
+\setmainfont[
+  Path=fonts/,
+  BoldFont=be-vietnam-pro-semibold.ttf,
+  ItalicFont=be-vietnam-pro-regular.ttf,
+  ItalicFeatures={FakeSlant=0.18},
+  BoldItalicFont=be-vietnam-pro-semibold.ttf,
+  BoldItalicFeatures={FakeSlant=0.18}
+]{be-vietnam-pro-regular.ttf}
+\setsansfont[
+  Path=fonts/,
+  BoldFont=be-vietnam-pro-semibold.ttf,
+  ItalicFont=be-vietnam-pro-regular.ttf,
+  ItalicFeatures={FakeSlant=0.18}
+]{be-vietnam-pro-regular.ttf}
+\newfontfamily\GuideFont[
+  Path=fonts/,
+  BoldFont=ibm-plex-mono-semibold-vietnamese.ttf
+]{ibm-plex-mono-regular-vietnamese.ttf}
+\newfontfamily\TagFont[
+  Path=fonts/,
+  BoldFont=ibm-plex-mono-semibold-vietnamese.ttf,
+  LetterSpace=4
+]{ibm-plex-mono-regular-vietnamese.ttf}
+\newfontfamily\DisplayFont[Path=fonts/]{fraunces-display.ttf}
+\newfontfamily\HeadFont[Path=fonts/]{fraunces-heading.ttf}
+\newfontfamily\ArrowFont{latinmodern-math.otf}
+\newcommand{\Arrow}{{\ArrowFont →}}
+\newfontfamily\HeadCapsFont[Path=fonts/,LetterSpace=3]{fraunces-heading.ttf}
+
+% ---------- Palette: approved cobalt only ----------
+\definecolor{Cobalt}{HTML}{0053FD}
+\definecolor{Ink}{HTML}{172033}
+\definecolor{Muted}{HTML}{596276}
+\definecolor{Rule}{HTML}{CBD3E1}
+\definecolor{Tint}{HTML}{F2F6FF}
+\definecolor{BadgeFill}{HTML}{E8F0FF}
+\color{Ink}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.42\baselineskip}
+\setlength{\headheight}{15pt}
+\setlength{\footskip}{28pt}
+\setlength{\skip\footins}{11pt}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Z}[1]{>{\hsize=#1\hsize\centering\arraybackslash\fontsize{12.5}{16}\selectfont}X}
+
+\makeatletter
+\renewcommand\footnotesize{\@setfontsize\footnotesize{8}{11}}
+\makeatother
+\renewcommand{\footnoterule}{%
+  \kern-3pt{\color{Rule}\hrule width 31mm height 0.45pt}\kern 5pt}
+
+% ---------- Document data: replace for each handout ----------
+\newcommand{\HandoutEyebrow}{WORKSHEET}
+\newcommand{\HandoutTitle}{Present Perfect \\ \& Present Perfect Progressive}
+\newcommand{\HandoutSubtitle}{36 questions \textbullet\ Choose the tense that matches the meaning.}
+\newcommand{\HandoutFooter}{PERFECT TENSES · PRACTICE}
+\newif\ifShowStudentFields
+\ShowStudentFieldstrue
+
+% ---------- Public-safe, opt-in signature ----------
+\providecommand{\HandoutSignatureProfile}{none}
+\providecommand{\HandoutSignatureText}{}
+\newcommand{\SetHandoutSignatureProfile}[1]{\renewcommand{\HandoutSignatureProfile}{#1}}
+\newcommand{\SetHandoutSignature}[1]{%
+  \renewcommand{\HandoutSignatureText}{#1}%
+  \SetHandoutSignatureProfile{custom}}
+\newcommand{\HandoutSignature}{%
+  \ifdefstring{\HandoutSignatureProfile}{custom}{%
+    \begin{minipage}[t]{0.35\textwidth}\raggedleft
+    \sffamily\fontsize{8}{10}\selectfont\itshape
+    \HandoutSignatureText
+    \end{minipage}}{}}
+% Keep this optional configuration beside your working document, outside the plugin.
+\InputIfFileExists{signature.local.tex}{}{}
+
+% ---------- Running page furniture ----------
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0.35pt}
+\renewcommand{\footrule}{{\color{Rule}\hrule width\headwidth height\footrulewidth}}
+\fancyfoot[L]{\GuideFont\fontsize{7.5}{10}\selectfont\color{Muted} \HandoutFooter}
+\fancyfoot[C]{\GuideFont\fontsize{7.5}{10}\selectfont\color{Muted} \thepage}
+\fancyfoot[R]{\HandoutSignature}
+
+% ---------- Helpers ----------
+\newcommand{\Vone}{V\textsubscript{1}}
+\newcommand{\HeadCell}[1]{{\leavevmode\GuideFont\fontsize{7.5}{9}\selectfont\bfseries\color{Muted}#1}}
+\newcommand{\HS}[1]{{\leavevmode\sffamily\fontsize{6.5}{8}\selectfont\color{Muted}#1}}
+\newcommand{\HeadTwo}[2]{\shortstack{\HeadCell{#1}\\[1.5pt]\HS{#2}}}
+\newcommand{\Tag}[1]{{\leavevmode\TagFont\fontsize{8}{10}\selectfont\bfseries\color{Cobalt}#1}}
+\newcommand{\Target}[1]{\textbf{\textcolor{Cobalt}{#1}}}
+\newcommand{\Context}[1]{\textcolor{Muted}{#1}}
+\newcommand{\Empty}{\textcolor{Rule}{--}}
+\newcommand{\Changed}[1]{\cellcolor{Cobalt}\textcolor{white}{\textbf{#1}}}
+
+% booktabs rules: thin, no vertical rules
+\aboverulesep=0.6ex
+\belowrulesep=0.9ex
+\newcommand{\TopRule}{\arrayrulecolor{Ink}\toprule[0.6pt]}
+\newcommand{\HeadRule}{\arrayrulecolor{Ink}\midrule[0.35pt]\arrayrulecolor{Rule}}
+\newcommand{\RowRule}{\arrayrulecolor{Rule}\midrule[0.35pt]}
+\newcommand{\BottomRule}{\arrayrulecolor{Ink}\bottomrule[0.6pt]\arrayrulecolor{Rule}}
+\newcommand{\TableSetup}{\vspace{2pt}\renewcommand{\arraystretch}{1.3}\setlength{\tabcolsep}{5pt}}
+
+% ---------- Title block: mono eyebrow, display-serif title ----------
+\newcommand{\TitleBlock}{%
+  {\TagFont\fontsize{8.5}{11}\selectfont\bfseries\color{Cobalt}\HandoutEyebrow}\par\vspace{1.5mm}
+  {\DisplayFont\fontsize{28}{32}\selectfont\color{Ink}\HandoutTitle}\par\vspace{1.5mm}
+  {\fontsize{11.5}{16}\selectfont\color{Muted}\HandoutSubtitle}\par}
+
+% ---------- Section hierarchy: number · heading on one baseline and one size ----------
+\newcommand{\TheorySection}[3]{%
+  \needspace{8\baselineskip}
+  \par\vspace{1.1\baselineskip}
+  {\HeadCapsFont\fontsize{14}{18}\selectfont\color{Ink}%
+    #1\hspace{1.6mm}{\color{Cobalt}·}\hspace{1.6mm}#2}\par
+  \vspace{-1pt}{\color{Cobalt}\rule{13mm}{1.2pt}}\par
+  \vspace{1pt}%
+  {\sffamily\fontsize{9}{12}\selectfont\color{Muted}#3}\par
+  \vspace{5pt}}
+
+\newcommand{\Subhead}[1]{%
+  \needspace{3\baselineskip}
+  {\HeadFont\fontsize{12}{15}\selectfont #1}\par}
+
+% ---------- Margin-label row: mono label at the left, content at the right ----------
+\newcommand{\LabelRow}[2]{%
+  \par\noindent
+  \begin{tabularx}{\textwidth}{@{}p{25mm}@{}Y@{}}
+  \Tag{#1} & #2
+  \end{tabularx}\par}
+\newcommand{\LabelLine}[2]{\par\noindent\hangindent=25mm\hangafter=1\relax\makebox[25mm][l]{\Tag{#1}}#2\par}
+\newcommand{\LabelRule}{\par\nopagebreak\vspace{1.8mm}{\color{Rule}\hrule height 0.35pt}\vspace{2.4mm}}
+
+% ---------- Example chip ----------
+\newcommand{\ExampleChip}[2]{%
+  \begin{tcolorbox}[enhanced,colback=Tint,colframe=Tint,boxrule=0pt,arc=1.4mm,
+    left=3mm,right=3mm,top=1.7mm,bottom=1.7mm,
+    before skip=2.2mm,after skip=0pt]
+  \Tag{#1}\hspace{4mm}{\fontsize{10.5}{14}\selectfont #2}
+  \end{tcolorbox}}
+
+% ---------- Core formula: solid block, display type ----------
+\newcommand{\FormulaBand}[1]{%
+  \begin{tcolorbox}[enhanced,colback=Cobalt,colframe=Cobalt,boxrule=0pt,arc=2mm,
+    left=4mm,right=4mm,top=4mm,bottom=4mm,
+    before skip=1mm,after skip=3.5mm]
+  \centering\color{white}{\HeadFont\fontsize{16}{20}\selectfont #1}
+  \end{tcolorbox}}
+\newcommand{\Plus}{\hspace{3mm}\textcolor{white!60!Cobalt}{+}\hspace{3mm}}
+
+% ---------- Legend chip ----------
+\newcommand{\LegendChip}[1]{%
+  \par\vspace{2.2mm}\noindent
+  \colorbox{Cobalt}{\rule{0pt}{2.4mm}\hspace{4.5mm}}\hspace{2mm}%
+  {\sffamily\fontsize{8}{11}\selectfont\color{Muted}#1}\par}
+
+% ---------- Contrast card ----------
+\newcommand{\ContrastCard}[3]{%
+  \begin{minipage}[t]{0.485\textwidth}
+  \begin{tcolorbox}[enhanced,colback=Tint,colframe=Tint,boxrule=0pt,arc=1.6mm,
+    left=4mm,right=4mm,top=3mm,bottom=3.2mm,
+    before skip=0pt,after skip=0pt]
+  \Tag{#1}\par\vspace{2mm}
+  {\fontsize{11}{15}\selectfont #2}#3
+  \end{tcolorbox}
+  \end{minipage}}
+
+\newcommand{\StudentFields}{%
+  \begingroup
+  \renewcommand{\arraystretch}{1.3}
+  \begin{tabularx}{\textwidth}{@{}>{\GuideFont\fontsize{9}{12}\selectfont}l X
+    >{\GuideFont\fontsize{9}{12}\selectfont}l p{30mm}
+    >{\GuideFont\fontsize{9}{12}\selectfont}l p{22mm}@{}}
+  NAME & \hrulefill & CLASS & \hrulefill & DATE & \hrulefill
+  \end{tabularx}
+  \endgroup}
+
+% ---------- Worksheet components ----------
+\newcounter{qn}
+\newlength{\QSkip}
+\newcommand{\twodig}[1]{\ifnum#1<10 0\fi\number#1}
+\newcommand{\hint}[1]{\mbox{\textcolor{Muted}{\GuideFont\fontsize{8.5}{10}\selectfont(#1)}}}
+\newcommand{\gap}{{\color{Muted}\rule{44mm}{0.4pt}}}
+\newcommand{\gapL}{{\color{Muted}\rule{62mm}{0.4pt}}}
+\newcommand{\Q}[1]{\par\begingroup\raggedright\stepcounter{qn}\noindent\hangindent=11mm\hangafter=1\relax
+  \makebox[11mm][l]{\Tag{\twodig{\value{qn}}}}#1\par\endgroup\vspace{\QSkip}}
+\newcommand{\AnsLine}{\par\vspace{7mm}\nointerlineskip\moveright 11mm\vbox{\color{Muted}\hrule width \dimexpr\textwidth-11mm\relax height 0.4pt}}
+\newcommand{\QL}[2]{\par\begingroup\raggedright\stepcounter{qn}\noindent\hangindent=11mm\hangafter=1\relax
+  \makebox[11mm][l]{\Tag{\twodig{\value{qn}}}}#1\par\endgroup
+  \ifnum#2>0 \AnsLine\fi\ifnum#2>1 \AnsLine\fi\par\vspace{\QSkip}}
+\newcommand{\Ans}[1]{\par\stepcounter{qn}\noindent\begin{minipage}[t]{\linewidth}\raggedright
+  \hangindent=9mm\hangafter=1\relax\makebox[9mm][l]{\Tag{\twodig{\value{qn}}}}#1\par\end{minipage}\par\vspace{1.8mm}}
+\newcommand{\ScoreChip}[1]{\par\vspace{1mm}\noindent\hfill
+  {\TagFont\fontsize{7.5}{10}\selectfont\color{Muted}SCORE}\hspace{3mm}%
+  {\color{Muted}\rule{13mm}{0.4pt}}\hspace{1.5mm}\Tag{/ #1}\par}
+
+\begin{document}
+\fontsize{10.5}{15.5}\selectfont
+\TitleBlock
+\vspace{7pt}\StudentFields\par
+\vspace{3pt}{\color{Rule}\rule{\textwidth}{0.5pt}}
+
+\vspace{4mm}
+\Tag{QUICK REMINDER}\par\vspace{1.5mm}
+{\TableSetup\renewcommand{\arraystretch}{1.35}
+\noindent\begin{tabularx}{\textwidth}{@{}l Y Y@{}}
+\TopRule
+ & {\HeadFont\fontsize{11}{14}\selectfont Present perfect} & {\HeadFont\fontsize{11}{14}\selectfont Present perfect progressive}\\
+\HeadRule
+\Tag{FORM}\hspace{3mm} & have/has + past participle & have/has + been + verb-ing\\
+\RowRule
+\Tag{USE} & Results, completed amounts, experiences, and continuing states. & Ongoing or recent activity; emphasis on duration.\\
+\BottomRule
+\end{tabularx}}
+\ExampleChip{NOTE}{\textit{Use the present perfect with state verbs such as know, like, own, and have (possession). With live, work, teach, and study, both forms can be possible.}}
+
+\TheorySection{01}{CORE FORMS}{Complete each sentence with the present perfect or present perfect progressive.}
+\setlength{\QSkip}{4.5mm}
+\Q{Mr Jone \hint{be}~\gap\ principal of our school since last year.}
+\Q{Mai \hint{lose}~\gap\ her dictionary.}
+\Q{Someone \hint{steal}~\gap\ my handbag on the bus.}
+\Q{I \hint{not see}~\gap\ him since last Monday.}
+\Q{My father \hint{not smoke}~\gap\ for 5 years.}
+\Q{Someone \hint{cut}~\gap\ down all the trees in the garden.}
+\Q{She \hint{ask}~\gap\ me to tell her about him several times.}
+\Q{Up to now, the teacher \hint{give}~\gap\ our class five tests.}
+\ScoreChip{8}
+\newpage
+
+\TheorySection{02}{CHOOSE BY MEANING}{Complete each gap with the most natural perfect form. Where both forms fit, either is accepted.}
+\setlength{\QSkip}{3.8mm}
+\Q{Joe has an old bike. He \hint{have}~\gap\ the same bike for 20 years.}
+\Q{I like funny TV shows. I \hint{like}~\gap\ comedies ever since I was a child.}
+\Q{I'm trying to study. I \hint{try}~\gap\ to study for the last hour, but something always seems to interrupt me. I think I'd better go to the library.}
+\Q{Toshi is waiting for his friend. He \hint{wait}~\gap\ for her since five o'clock. She's late for their date.}
+\Q{Susie is watching several episodes in a row of her favorite comedy. She \hint{watch}~\gap\ them all afternoon without a break.}
+\Q{Don't wake Nora up. She is sleeping. She \hint{sleep}~\gap\ all morning. She isn't feeling well.}
+\Q{Matt works at ABC Appliances. He \hint{work}~\gap\ there since 2005.}
+\Q{Dr. Chang teaches math. He is an excellent teacher. He \hint{teach}~\gap\ math at this school for more than 25 years.}
+\Q{Sue and Rick are playing tennis right now and they're getting tired. They \hint{play}~\gap\ since nine o'clock this morning.}
+\Q{Sue's winning. She's the better tennis player. She \hint{play}~\gap\ tennis since she was ten. Rick started playing only last year.}
+\ScoreChip{10}
+\newpage
+
+\TheorySection{03}{MIXED PRACTICE}{Complete the sentences with the appropriate perfect form. Include the subject in question gaps. Where both forms fit, either is accepted.}
+\setlength{\QSkip}{5mm}
+\Q{How long \hint{you / study}~\gapL\ English? For 5 years.}
+\Q{They \hint{live}~\gap\ in Ho Chi Minh City since 1975.}
+\Q{I \hint{see}~\gap\ that film several times because I like it.}
+\Q{She \hint{read}~\gap\ all the books written by Dickens. How many books \hint{you / read}~\gap?}
+\Q{I \hint{wait}~\gap\ for two hours, but she \hint{not come}~\gap\ yet.}
+\Q{He \hint{write}~\gap\ a novel for two years, but he \hint{not finish}~\gap\ it yet.}
+\Q{Mary \hint{lose}~\gap\ her hat and she \hint{look}~\gap\ for it until now.}
+\Q{Jack \hint{go}~\gap\ to Paris for a holiday. He \hint{never / be}~\gap\ there before.}
+\Q{He \hint{not be}~\gap\ here since Christmas. I wonder where he \hint{live}~\gap\ since then.}
+\Q{\hint{you / sleep}~\gapL\ so far? I \hint{ring}~\gap\ the bell for the last twenty minutes.}
+\ScoreChip{10}
+\newpage
+
+\TheorySection{04}{FIND AND CORRECT}{Rewrite each item correctly using the present perfect or present perfect progressive. Keep any correct past simple forms.}
+\setlength{\QSkip}{3.5mm}
+\QL{How long have you know my sister?}{1}
+\QL{Jonas owned his home since last year, but his parents helped him buy it.}{2}
+\QL{How long you have been waiting for me?}{1}
+\QL{I am watching TV since I got home.}{1}
+\QL{Since I came to this country, I am learning a lot about the way of life here.}{2}
+\QL{I am coaching a soccer team for the last two months.}{1}
+\QL{Why you no have been in class for the last couple of days?}{1}
+\QL{How long you are living here? I been here for almost two years.}{2}
+\ScoreChip{8}
+\newpage
+
+{\TagFont\fontsize{8.5}{11}\selectfont\bfseries\color{Cobalt}WORKSHEET}\par\vspace{1.5mm}
+{\DisplayFont\fontsize{28}{32}\selectfont\color{Ink}Answer Key}\par\vspace{1.5mm}
+{\fontsize{10.5}{15}\selectfont\color{Muted}Standard contractions are accepted. Slashes show accepted alternatives; semicolons separate gaps. Progressive forms in ongoing scenes emphasize the activity in progress.}\par
+\setcounter{qn}{0}
+
+\TheorySection{01}{CORE FORMS}{}
+\begin{multicols}{2}
+\Ans{has been}
+\Ans{has lost}
+\Ans{has stolen}
+\Ans{have not seen / haven’t seen}
+\Ans{has not smoked / hasn’t smoked}
+\Ans{has cut}
+\Ans{has asked}
+\Ans{has given}
+\end{multicols}
+\setcounter{qn}{8}
+
+\TheorySection{02}{CHOOSE BY MEANING}{}
+\begin{multicols}{2}
+\Ans{has had}
+\Ans{have liked}
+\Ans{have been trying}
+\Ans{has been waiting}
+\Ans{has been watching}
+\Ans{has been sleeping}
+\Ans{has worked / has been working}
+\Ans{has taught / has been teaching}
+\Ans{have been playing}
+\Ans{has played / has been playing}
+\end{multicols}
+\ExampleChip{MEANING CHECK}{\textit{Possession and liking are states (9–10). Items 11–14 and 17 emphasize ongoing activity. Items 15–16 and 18 allow either focus.}}
+\newpage
+\setcounter{qn}{18}
+
+\TheorySection{03}{MIXED PRACTICE}{}
+\begin{multicols}{2}
+\Ans{have you been studying / have you studied}
+\Ans{have been living / have lived}
+\Ans{have seen}
+\Ans{has read; have you read}
+\Ans{have been waiting; has not come / hasn’t come}
+\Ans{has been writing; has not finished / hasn’t finished}
+\Ans{has lost; has been looking}
+\Ans{has gone; has never been}
+\Ans{has not been / hasn’t been; has been living / has lived}
+\Ans{Have you been sleeping; have been ringing}
+\end{multicols}
+\ExampleChip{MEANING CHECK}{\textit{Completed amounts and repeated results take the simple form (21–22); ongoing processes contrast with results in 23–25.}}
+\setcounter{qn}{28}
+
+\TheorySection{04}{FIND AND CORRECT}{}
+\begin{multicols}{2}
+\Ans{How long have you known my sister?}
+\Ans{Jonas has owned his home since last year, but his parents helped him buy it.}
+\Ans{How long have you been waiting for me?}
+\Ans{I have been watching TV since I got home.}
+\Ans{Since I came to this country, I have learned / have been learning a lot about the way of life here.}
+\Ans{I have been coaching / have coached a soccer team for the last two months.}
+\Ans{Why have you not been / haven’t you been in class for the last couple of days?}
+\Ans{How long have you been living / have you lived here? I have been here for almost two years.}
+\end{multicols}
+
+\end{document}

@@ -1,0 +1,32 @@
+{
+  "name": "jonathan-education-plugins",
+  "interface": {
+    "displayName": "Education Plugins"
+  },
+  "plugins": [
+    {
+      "name": "latex-theory-handouts",
+      "source": {
+        "source": "local",
+        "path": "./plugins/latex-theory-handouts"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Education"
+    },
+    {
+      "name": "latex-worksheets",
+      "source": {
+        "source": "local",
+        "path": "./plugins/latex-worksheets"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Education"
+    }
+  ]
+}

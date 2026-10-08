@@ -1,0 +1,10 @@
+signature.local.tex
+*.aux
+*.log
+*.out
+*.synctex.gz
+.DS_Store
+__pycache__/
+*.pyc
+build-*/
+rendered-*/

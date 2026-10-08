@@ -1,0 +1,15 @@
+{
+  "name": "latex-worksheets",
+  "version": "3.0.0",
+  "description": "Editorial A4 worksheets, exercises, and answer keys.",
+  "author": {
+    "name": "jonathan-exercising-tech"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "LaTeX Worksheets",
+    "shortDescription": "Editorial A4 worksheets, exercises, and answer keys.",
+    "developerName": "jonathan-exercising-tech",
+    "category": "Education"
+  }
+}

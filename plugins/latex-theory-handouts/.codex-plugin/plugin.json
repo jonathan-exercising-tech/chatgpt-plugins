@@ -1,0 +1,15 @@
+{
+  "name": "latex-theory-handouts",
+  "version": "3.0.0",
+  "description": "Editorial A4 theory handouts from supplied lesson content.",
+  "author": {
+    "name": "jonathan-exercising-tech"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "LaTeX Theory Handouts",
+    "shortDescription": "Editorial A4 theory handouts from supplied lesson content.",
+    "developerName": "jonathan-exercising-tech",
+    "category": "Education"
+  }
+}

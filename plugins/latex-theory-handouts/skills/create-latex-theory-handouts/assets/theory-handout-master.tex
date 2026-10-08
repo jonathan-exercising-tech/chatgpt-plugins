@@ -1,0 +1,281 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[margin=17mm,bottom=22mm]{geometry}
+\usepackage{fontspec}
+\usepackage{microtype}
+\usepackage[table]{xcolor}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{needspace}
+\usepackage{etoolbox}
+\usepackage[most]{tcolorbox}
+
+% ---------- Fonts: Be Vietnam Pro (text), Fraunces (display), IBM Plex Mono (labels) ----------
+\setmainfont[
+  Path=fonts/,
+  BoldFont=be-vietnam-pro-semibold.ttf,
+  ItalicFont=be-vietnam-pro-regular.ttf,
+  ItalicFeatures={FakeSlant=0.18},
+  BoldItalicFont=be-vietnam-pro-semibold.ttf,
+  BoldItalicFeatures={FakeSlant=0.18}
+]{be-vietnam-pro-regular.ttf}
+\setsansfont[
+  Path=fonts/,
+  BoldFont=be-vietnam-pro-semibold.ttf,
+  ItalicFont=be-vietnam-pro-regular.ttf,
+  ItalicFeatures={FakeSlant=0.18}
+]{be-vietnam-pro-regular.ttf}
+\newfontfamily\GuideFont[
+  Path=fonts/,
+  BoldFont=ibm-plex-mono-semibold-vietnamese.ttf
+]{ibm-plex-mono-regular-vietnamese.ttf}
+\newfontfamily\TagFont[
+  Path=fonts/,
+  BoldFont=ibm-plex-mono-semibold-vietnamese.ttf,
+  LetterSpace=4
+]{ibm-plex-mono-regular-vietnamese.ttf}
+\newfontfamily\DisplayFont[Path=fonts/]{fraunces-display.ttf}
+\newfontfamily\HeadFont[Path=fonts/]{fraunces-heading.ttf}
+\newfontfamily\ArrowFont{latinmodern-math.otf}
+\newcommand{\Arrow}{{\ArrowFont →}}
+\newfontfamily\HeadCapsFont[Path=fonts/,LetterSpace=3]{fraunces-heading.ttf}
+
+% ---------- Palette: approved cobalt only ----------
+\definecolor{Cobalt}{HTML}{0053FD}
+\definecolor{Ink}{HTML}{172033}
+\definecolor{Muted}{HTML}{596276}
+\definecolor{Rule}{HTML}{CBD3E1}
+\definecolor{Tint}{HTML}{F2F6FF}
+\definecolor{BadgeFill}{HTML}{E8F0FF}
+\color{Ink}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.42\baselineskip}
+\setlength{\headheight}{15pt}
+\setlength{\footskip}{28pt}
+\setlength{\skip\footins}{11pt}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Z}[1]{>{\hsize=#1\hsize\centering\arraybackslash\fontsize{12.5}{16}\selectfont}X}
+
+\makeatletter
+\renewcommand\footnotesize{\@setfontsize\footnotesize{8}{11}}
+\makeatother
+\renewcommand{\footnoterule}{%
+  \kern-3pt{\color{Rule}\hrule width 31mm height 0.45pt}\kern 5pt}
+
+% ---------- Document data: replace for each handout ----------
+\newcommand{\HandoutEyebrow}{THEORY HANDOUT}
+\newcommand{\HandoutTitle}{Be Going To}
+\newcommand{\HandoutSubtitle}{Plans, intentions, and predictions based on present evidence.}
+\newcommand{\HandoutFooter}{GRAMMAR NOTES · BE GOING TO}
+\newif\ifShowStudentFields
+\ShowStudentFieldstrue
+
+% ---------- Public-safe, opt-in signature ----------
+\providecommand{\HandoutSignatureProfile}{none}
+\providecommand{\HandoutSignatureText}{}
+\newcommand{\SetHandoutSignatureProfile}[1]{\renewcommand{\HandoutSignatureProfile}{#1}}
+\newcommand{\SetHandoutSignature}[1]{%
+  \renewcommand{\HandoutSignatureText}{#1}%
+  \SetHandoutSignatureProfile{custom}}
+\newcommand{\HandoutSignature}{%
+  \ifdefstring{\HandoutSignatureProfile}{custom}{%
+    \begin{minipage}[t]{0.35\textwidth}\raggedleft
+    \sffamily\fontsize{8}{10}\selectfont\itshape
+    \HandoutSignatureText
+    \end{minipage}}{}}
+% Keep this optional configuration beside your working document, outside the plugin.
+\InputIfFileExists{signature.local.tex}{}{}
+
+% ---------- Running page furniture ----------
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0.35pt}
+\renewcommand{\footrule}{{\color{Rule}\hrule width\headwidth height\footrulewidth}}
+\fancyfoot[L]{\GuideFont\fontsize{7.5}{10}\selectfont\color{Muted} \HandoutFooter}
+\fancyfoot[C]{\GuideFont\fontsize{7.5}{10}\selectfont\color{Muted} \thepage}
+\fancyfoot[R]{\HandoutSignature}
+
+% ---------- Helpers ----------
+\newcommand{\Vone}{V\textsubscript{1}}
+\newcommand{\HeadCell}[1]{{\leavevmode\GuideFont\fontsize{7.5}{9}\selectfont\bfseries\color{Muted}#1}}
+\newcommand{\HS}[1]{{\leavevmode\sffamily\fontsize{6.5}{8}\selectfont\color{Muted}#1}}
+\newcommand{\HeadTwo}[2]{\shortstack{\HeadCell{#1}\\[1.5pt]\HS{#2}}}
+\newcommand{\Tag}[1]{{\leavevmode\TagFont\fontsize{8}{10}\selectfont\bfseries\color{Cobalt}#1}}
+\newcommand{\Target}[1]{\textbf{\textcolor{Cobalt}{#1}}}
+\newcommand{\Context}[1]{\textcolor{Muted}{#1}}
+\newcommand{\Empty}{\textcolor{Rule}{--}}
+\newcommand{\Changed}[1]{\cellcolor{Cobalt}\textcolor{white}{\textbf{#1}}}
+
+% booktabs rules: thin, no vertical rules
+\aboverulesep=0.6ex
+\belowrulesep=0.9ex
+\newcommand{\TopRule}{\arrayrulecolor{Ink}\toprule[0.6pt]}
+\newcommand{\HeadRule}{\arrayrulecolor{Ink}\midrule[0.35pt]\arrayrulecolor{Rule}}
+\newcommand{\RowRule}{\arrayrulecolor{Rule}\midrule[0.35pt]}
+\newcommand{\BottomRule}{\arrayrulecolor{Ink}\bottomrule[0.6pt]\arrayrulecolor{Rule}}
+\newcommand{\TableSetup}{\vspace{2pt}\renewcommand{\arraystretch}{1.3}\setlength{\tabcolsep}{5pt}}
+
+% ---------- Title block: mono eyebrow, display-serif title ----------
+\newcommand{\TitleBlock}{%
+  {\TagFont\fontsize{8.5}{11}\selectfont\bfseries\color{Cobalt}\HandoutEyebrow}\par\vspace{1.5mm}
+  {\DisplayFont\fontsize{34}{38}\selectfont\color{Ink}\HandoutTitle}\par\vspace{1.5mm}
+  {\fontsize{11.5}{16}\selectfont\color{Muted}\HandoutSubtitle}\par}
+
+% ---------- Section hierarchy: number · heading on one baseline and one size ----------
+\newcommand{\TheorySection}[3]{%
+  \needspace{8\baselineskip}
+  \par\vspace{1.1\baselineskip}
+  {\HeadCapsFont\fontsize{14}{18}\selectfont\color{Ink}%
+    #1\hspace{1.6mm}{\color{Cobalt}·}\hspace{1.6mm}#2}\par
+  \vspace{-1pt}{\color{Cobalt}\rule{13mm}{1.2pt}}\par
+  \vspace{1pt}%
+  {\sffamily\fontsize{9}{12}\selectfont\color{Muted}#3}\par
+  \vspace{5pt}}
+
+\newcommand{\Subhead}[1]{%
+  \needspace{3\baselineskip}
+  {\HeadFont\fontsize{12}{15}\selectfont #1}\par}
+
+% ---------- Margin-label row: mono label at the left, content at the right ----------
+\newcommand{\LabelRow}[2]{%
+  \par\noindent
+  \begin{tabularx}{\textwidth}{@{}p{25mm}@{}Y@{}}
+  \Tag{#1} & #2
+  \end{tabularx}\par}
+\newcommand{\LabelLine}[2]{\par\noindent\hangindent=25mm\hangafter=1\relax\makebox[25mm][l]{\Tag{#1}}#2\par}
+\newcommand{\LabelRule}{\par\nopagebreak\vspace{1.8mm}{\color{Rule}\hrule height 0.35pt}\vspace{2.4mm}}
+
+% ---------- Example chip ----------
+\newcommand{\ExampleChip}[2]{%
+  \begin{tcolorbox}[enhanced,colback=Tint,colframe=Tint,boxrule=0pt,arc=1.4mm,
+    left=3mm,right=3mm,top=1.7mm,bottom=1.7mm,
+    before skip=2.2mm,after skip=0pt]
+  \Tag{#1}\hspace{4mm}{\fontsize{10.5}{14}\selectfont #2}
+  \end{tcolorbox}}
+
+% ---------- Core formula: solid block, display type ----------
+\newcommand{\FormulaBand}[1]{%
+  \begin{tcolorbox}[enhanced,colback=Cobalt,colframe=Cobalt,boxrule=0pt,arc=2mm,
+    left=4mm,right=4mm,top=4mm,bottom=4mm,
+    before skip=1mm,after skip=3.5mm]
+  \centering\color{white}{\HeadFont\fontsize{16}{20}\selectfont #1}
+  \end{tcolorbox}}
+\newcommand{\Plus}{\hspace{3mm}\textcolor{white!60!Cobalt}{+}\hspace{3mm}}
+
+% ---------- Legend chip ----------
+\newcommand{\LegendChip}[1]{%
+  \par\vspace{2.2mm}\noindent
+  \colorbox{Cobalt}{\rule{0pt}{2.4mm}\hspace{4.5mm}}\hspace{2mm}%
+  {\sffamily\fontsize{8}{11}\selectfont\color{Muted}#1}\par}
+
+% ---------- Contrast card ----------
+\newcommand{\ContrastCard}[3]{%
+  \begin{minipage}[t]{0.485\textwidth}
+  \begin{tcolorbox}[enhanced,colback=Tint,colframe=Tint,boxrule=0pt,arc=1.6mm,
+    left=4mm,right=4mm,top=3mm,bottom=3.2mm,
+    before skip=0pt,after skip=0pt]
+  \Tag{#1}\par\vspace{2mm}
+  {\fontsize{11}{15}\selectfont #2}#3
+  \end{tcolorbox}
+  \end{minipage}}
+
+\newcommand{\StudentFields}{%
+  \begingroup
+  \renewcommand{\arraystretch}{1.22}
+  \begin{tabularx}{\textwidth}{@{}>{\GuideFont\fontsize{9}{12}\selectfont}l X
+    >{\GuideFont\fontsize{9}{12}\selectfont}l p{31mm}@{}}
+  NAME & \hrulefill & CLASS & \hrulefill
+  \end{tabularx}
+  \endgroup}
+
+\begin{document}
+\fontsize{10}{15}\selectfont
+
+\TitleBlock
+\ifShowStudentFields\vspace{7pt}\StudentFields\par\fi
+\vspace{3pt}{\color{Rule}\rule{\textwidth}{0.5pt}}
+
+% ----------------------------------------------------------------------
+\TheorySection{01}{MEANING AND USE}{Two reasons for choosing this future form.}
+
+\LabelRow{USE A}{%
+  {\fontsize{11.5}{15}\selectfont\textbf{A plan or intention made before speaking}}\par
+  The speaker has already decided what to do, although every practical detail may not be arranged yet.\footnotemark[1]
+  \ExampleChip{EXAMPLE}{I \Target{am going to study} after dinner.}}
+\LabelRule
+\LabelRow{USE B}{%
+  {\fontsize{11.5}{15}\selectfont\textbf{A prediction based on evidence now}}\par
+  Something in the present situation makes a future result easy to predict.\footnotemark[2]
+  \ExampleChip{EVIDENCE}{\Context{Look at those clouds.} It \Target{is going to rain}.}}
+\footnotetext[1]{An intention and an arrangement are related but not identical. An arrangement normally has clearer external details such as a time, place, booking, or another person.}
+\footnotetext[2]{Compare this with \textit{will}, which often introduces a prediction based primarily on an opinion, belief, or expectation.}
+
+% ----------------------------------------------------------------------
+\TheorySection{02}{THE CORE FORM}{Separate the changing auxiliary from the fixed verb phrase.}
+
+\FormulaBand{SUBJECT\Plus BE\Plus GOING TO\Plus MAIN VERB · \Vone}
+
+Only \textbf{be} changes with the subject. The sequence \textbf{going to + \Vone} remains fixed.\footnotemark[3]
+
+{\TableSetup\renewcommand{\arraystretch}{1.4}
+\noindent\begin{tabularx}{\textwidth}{@{}Y
+  >{\centering\arraybackslash}X
+  >{\centering\arraybackslash}X
+  >{\centering\arraybackslash}X@{}}
+\TopRule
+\HeadCell{SUBJECT} & \HeadCell{FORM OF BE} & \HeadCell{COMPLETE VERB PHRASE} \\
+\HeadRule
+\textbf{I} & \cellcolor{Tint}\Target{am} & am going to + \Vone \\
+\textbf{he · she · it} & \cellcolor{Tint}\Target{is} & is going to + \Vone \\
+\textbf{you · we · they} & \cellcolor{Tint}\Target{are} & are going to + \Vone \\
+\BottomRule
+\end{tabularx}}
+\footnotetext[3]{In normal speech and informal writing, negative forms commonly contract: \textit{is not} \Arrow{} \textit{isn't}; \textit{are not} \Arrow{} \textit{aren't}.}
+
+% ----------------------------------------------------------------------
+\TheorySection{03}{GRAMMAR STRUCTURE}{Read each column top to bottom: the same function always sits in the same position.}
+
+{\TableSetup\renewcommand{\arraystretch}{1.85}
+\aboverulesep=0pt \belowrulesep=0pt
+\noindent\begin{tabularx}{\textwidth}{@{}>{\TagFont\fontsize{7.5}{10}\selectfont\bfseries\color{Cobalt}}l
+  Z{0.75} Z{0.85} Z{0.75} Z{0.75} Z{1.8} Z{1.1}@{}}
+\TopRule
+\HeadTwo{FORM}{\phantom{x}} &
+  \HeadTwo{BE}{question only} &
+  \HeadTwo{SUBJECT}{\phantom{x}} &
+  \HeadTwo{BE}{statement} &
+  \HeadTwo{NOT}{\phantom{x}} &
+  \HeadTwo{GOING TO + \Vone}{\phantom{x}} &
+  \HeadTwo{TIME}{\phantom{x}} \\
+\HeadRule
+AFFIRMATIVE & \Empty & She & is & \Empty & going to study & tonight. \\
+\RowRule
+NEGATIVE & \Empty & She & is & \Changed{not} & going to study & tonight. \\
+\RowRule
+QUESTION & \Changed{Is} & she & \Empty & \Empty & going to study & tonight? \\
+\BottomRule
+\end{tabularx}}
+\LegendChip{Solid cell: the part that changes compared with the affirmative sentence.}
+
+\vspace{3mm}
+\LabelLine{NEGATIVE}{Place \textbf{not} immediately after \textbf{be}: \textit{is not}, \textit{are not}.}
+\LabelRule
+\LabelLine{QUESTION}{Move \textbf{be} before the subject; keep \textbf{going to + \Vone} together.}
+\LabelRule
+\LabelLine{SHORT ANSWER}{Repeat the appropriate form of \textbf{be}: \textit{Yes, she is. / No, she isn't.}}
+
+% ----------------------------------------------------------------------
+\TheorySection{04}{CONTRAST IN CONTEXT}{Use a compact comparison when two forms may describe the same event.}
+
+\noindent
+\ContrastCard{INTENTION}{I \Target{am going to meet} Leo this week.}{}%
+\hfill
+\ContrastCard{ARRANGEMENT}{I \Target{am meeting} Leo at the library at four.}{\footnotemark[4]}\par
+\footnotetext[4]{The second sentence presents the meeting as organized. The stated time and place support that interpretation, but context ultimately determines the speaker's meaning.}
+
+\end{document}

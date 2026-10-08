@@ -1,0 +1,6 @@
+interface:
+  display_name: "LaTeX Worksheets"
+  short_description: "Create editorial worksheets and answer keys"
+  default_prompt: "Use $create-latex-worksheets to create a worksheet from my teaching material."
+policy:
+  allow_implicit_invocation: true
