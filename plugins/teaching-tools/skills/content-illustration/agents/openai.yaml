@@ -1,0 +1,7 @@
+interface:
+  display_name: Content Illustration
+  short_description: Vintage scientific illustration for lessons
+  default_prompt: Use $content-illustration to create a clear educational illustration
+    in the approved engraved style.
+policy:
+  allow_implicit_invocation: true

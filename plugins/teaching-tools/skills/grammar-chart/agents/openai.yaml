@@ -1,0 +1,9 @@
+interface:
+  display_name: Grammar Chart
+  short_description: Render đồng bộ chart và exercise tiếng Anh
+  default_prompt: Use $grammar-chart to analyze my source and render a consistent
+    grammar chart or exercise.
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  allow_implicit_invocation: true

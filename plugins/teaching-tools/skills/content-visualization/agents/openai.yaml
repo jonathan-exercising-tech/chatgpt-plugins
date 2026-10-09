@@ -1,0 +1,9 @@
+interface:
+  display_name: Content Visualization
+  short_description: Build interactive standalone HTML presentations
+  default_prompt: Use $content-visualization to turn this lesson into an interactive
+    standalone HTML presentation.
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  allow_implicit_invocation: true

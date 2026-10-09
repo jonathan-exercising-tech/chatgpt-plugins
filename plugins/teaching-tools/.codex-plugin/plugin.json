@@ -1,0 +1,27 @@
+{
+  "name": "teaching-tools",
+  "version": "0.1.0",
+  "description": "Interactive lessons, grammar charts, and educational illustrations.",
+  "author": {
+    "name": "jonathan-exercising-tech"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Teaching Tools",
+    "shortDescription": "Interactive lessons, grammar charts, and illustrations.",
+    "developerName": "jonathan-exercising-tech",
+    "category": "Education",
+    "capabilities": [
+      "Interactive lessons",
+      "Grammar visuals",
+      "Educational illustration"
+    ],
+    "brandColor": "#8B2742",
+    "defaultPrompt": [
+      "Create an interactive lesson from my materials.",
+      "Turn this grammar page into a classroom visual.",
+      "Create a warm-up game; use Mysterious Cups by default."
+    ],
+    "longDescription": "Create standalone interactive lessons and Mysterious Cups games, precise Nous/Hermes grammar visuals, and engraved scientific-book educational illustrations."
+  }
+}

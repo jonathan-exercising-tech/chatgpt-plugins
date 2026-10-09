@@ -1,0 +1,6 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "content-illustration",
+  "version": "0.1.0",
+  "description": "Create educational illustrations with engraved scientific linework, watercolor-under-ink, monochrome studies, and handwritten annotations."
+}

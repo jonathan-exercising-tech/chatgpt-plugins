@@ -6,6 +6,8 @@ Skill-based plugins, published by `jonathan-exercising-tech`. No MCP service or 
 |---|---|---|
 | [LaTeX Theory Handouts](plugins/latex-theory-handouts) | 3.0.0 | Uploaded editorial v3 theory skill, fonts, master, QA |
 | [LaTeX Worksheets](plugins/latex-worksheets) | 3.0.0 | Skill packaged from uploaded worksheet v3 project |
+| [Content Illustration](plugins/content-illustration) | 0.1.0 | Engraved scientific-book educational illustrations |
+| [Teaching Tools](plugins/teaching-tools) | 0.1.0 | Interactive lessons, Mysterious Cups, Grammar Chart, Content Illustration |
 
 ## Install
 
@@ -32,6 +34,8 @@ LaTeX templates default to no signature. Configure an optional `signature.local.
 ## Source provenance
 
 The LaTeX sources come from the two v3 ZIP attachments supplied for this release, not older locally installed LaTeX skills. The worksheet ZIP was a project, so its skill instructions and UI metadata were added while retaining the supplied template and fonts.
+
+Content Illustration and Teaching Tools are copied from the personal marketplace source directories and verified against the installed 0.1.0 cache, file by file. All skills, templates, scripts, fonts, and reference artwork retain their original bytes. Only publisher metadata uses the public GitHub handle, and portable `plugin.json` manifests were added. Teaching Tools already includes Content Visualization and Content Illustration.
 
 ## Rights
 

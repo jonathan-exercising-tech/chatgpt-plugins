@@ -1,0 +1,21 @@
+{
+  "name": "content-illustration",
+  "version": "0.1.0",
+  "description": "Create educational illustrations with engraved scientific linework, watercolor-under-ink, monochrome studies, and handwritten annotations.",
+  "author": {
+    "name": "jonathan-exercising-tech"
+  },
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Content Illustration",
+    "shortDescription": "Scientific-book illustrations for teaching.",
+    "longDescription": "Creates people, animals, objects, annotated plates, and construction sequences in a clean historical engraved style with optional watercolor or black-and-white output.",
+    "developerName": "jonathan-exercising-tech",
+    "category": "Education",
+    "capabilities": [
+      "Image generation",
+      "Educational illustration"
+    ],
+    "defaultPrompt": "Create a clear educational illustration in the approved engraved scientific-book style."
+  }
+}

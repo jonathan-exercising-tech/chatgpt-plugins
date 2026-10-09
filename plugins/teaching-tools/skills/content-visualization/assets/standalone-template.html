@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{DOCUMENT_TITLE}}</title>
+  <style>
+    @font-face { font-family: "CV Fraunces"; src: url("data:font/woff2;base64,{{FONT_FRAUNCES_WOFF2}}") format("woff2"); font-style: normal; font-weight: 300 900; font-display: block; }
+    @font-face { font-family: "CV IBM Plex Mono"; src: url("data:font/woff2;base64,{{FONT_PLEX_REGULAR_WOFF2}}") format("woff2"); font-style: normal; font-weight: 400; font-display: block; }
+    @font-face { font-family: "CV IBM Plex Mono"; src: url("data:font/woff2;base64,{{FONT_PLEX_SEMIBOLD_WOFF2}}") format("woff2"); font-style: normal; font-weight: 600 900; font-display: block; }
+    @font-face { font-family: "CV Be Vietnam Pro"; src: url("data:font/woff2;base64,{{FONT_BEVN_REGULAR_WOFF2}}") format("woff2"); font-style: normal; font-weight: 400; font-display: block; }
+    @font-face { font-family: "CV Be Vietnam Pro"; src: url("data:font/woff2;base64,{{FONT_BEVN_SEMIBOLD_WOFF2}}") format("woff2"); font-style: normal; font-weight: 500 700; font-display: block; }
+    @font-face { font-family: "CV Be Vietnam Pro"; src: url("data:font/woff2;base64,{{FONT_BEVN_EXTRABOLD_WOFF2}}") format("woff2"); font-style: normal; font-weight: 800 950; font-display: block; }
+    :root {
+      --shell: #eee9dc; --paper: #f7f1e3; --ink: #2a241f; --muted: #746a5f;
+      --wine: #8c1d40; --olive: #596226; --olive-soft: #a8ad72;
+      --cream: #e8dfc7; --gold: #c8a15a; --white: #fffdf7;
+      --cobalt: var(--wine); --blue: var(--olive-soft); --orange: var(--olive);
+      --display-font: "CV Fraunces", Fraunces, Georgia, "Times New Roman", serif;
+      --label-font: "CV IBM Plex Mono", "IBM Plex Mono", "Courier Prime", "Courier New", monospace;
+      --body-font: "CV Be Vietnam Pro", "Be Vietnam Pro", "SF Pro Text", system-ui, sans-serif;
+      --ui-font: var(--body-font);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; }
+    body {
+      min-height: 100dvh; overflow: hidden; color: var(--ink); font-family: var(--ui-font);
+      background-color: var(--shell);
+      background-image: radial-gradient(circle, rgba(89,98,38,.22) 1.5px, transparent 1.7px);
+      background-size: 22px 22px;
+    }
+    button { font: inherit; }
+    .app-shell { width: 100%; height: 100dvh; display: grid; grid-template-rows: auto minmax(0,1fr) auto; gap: 10px; padding: 14px 26px 16px; }
+    .topbar, .control-dock { width: min(1180px,100%); margin-inline: auto; }
+    .topbar { display: grid; grid-template-columns: 210px minmax(0,1fr) 90px; align-items: center; gap: 18px; min-height: 42px; }
+    .brand-kicker { margin: 0 0 3px; font-family: var(--label-font); font-size: 9px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; }
+    .brand-title { margin: 0; font-size: 13px; font-weight: 850; }
+    .section-nav { width: min(510px,100%); justify-self: center; display: grid; grid-auto-flow: column; grid-auto-columns: minmax(84px,1fr); overflow-x: auto; border: 2px solid var(--ink); background: var(--paper); box-shadow: 4px 4px 0 rgba(140,29,64,.12); }
+    .section-tab { min-width: 0; min-height: 34px; display: inline-flex; align-items: center; justify-content: center; gap: 5px; padding: 6px 7px; border: 0; border-right: 1px solid rgba(7,26,75,.24); color: var(--muted); background: transparent; cursor: pointer; white-space: nowrap; }
+    .section-tab:last-child { border-right: 0; }
+    .section-tab[aria-current="step"] { color: var(--white); background: var(--cobalt); }
+    .tab-no { font-family: var(--label-font); font-size: 8px; font-weight: 600; letter-spacing: .08em; opacity: .72; }
+    .tab-label { overflow: hidden; font-size: 10px; font-weight: 850; text-overflow: ellipsis; }
+    .lesson-position { text-align: right; }
+    .position-label { display: block; font-family: var(--label-font); font-size: 9px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+    .position-value { display: block; margin-top: 3px; font-family: var(--label-font); font-size: 14px; font-weight: 600; }
+    .stage-wrap { min-height: 0; display: grid; place-items: center; }
+    .content-stage { position: relative; width: min(1180px,100%,calc((100dvh - 152px) * 16 / 9)); aspect-ratio: 16/9; overflow: hidden; border: 3px solid var(--blue); background: var(--paper); isolation: isolate; }
+    .content-stage::before, .content-stage::after { content: ""; position: absolute; z-index: 5; width: 120px; height: 24px; }
+    .content-stage::before { top: 17px; left: 36px; background: var(--wine); transform: rotate(-3deg); }
+    .content-stage::after { right: 32px; bottom: 17px; background: var(--gold); transform: rotate(3deg); }
+    .slide { width: 100%; height: 100%; display: none; grid-template-columns: .82fr 1.18fr; gap: clamp(26px,3.4vw,54px); padding: clamp(56px,5.2vw,78px) clamp(48px,5vw,74px) clamp(48px,4.2vw,64px); }
+    .slide.is-active { display: grid; }
+    .slide-copy { align-self: center; min-width: 0; }
+    .eyebrow { display: inline-block; margin: 0 0 18px; padding: 8px 12px; border: 2px solid var(--ink); background: var(--olive); color: var(--white); font-family: var(--label-font); font-size: clamp(9px,.82vw,12px); font-weight: 600; letter-spacing: .1em; text-transform: uppercase; transform: rotate(-1deg); }
+    .slide-title { max-width: 9ch; margin: 0; font-family: var(--display-font); font-size: clamp(42px,5.4vw,78px); font-variation-settings: "wght" 700, "opsz" 144, "SOFT" 20, "WONK" 1; font-weight: 700; letter-spacing: -.025em; line-height: .93; text-transform: uppercase; }
+    .slide-title .accent { color: var(--wine); }
+    .lead { max-width: 34ch; margin: 22px 0 0; font-size: clamp(15px,1.26vw,19px); font-weight: 650; line-height: 1.45; }
+    .teaching-note { width: fit-content; margin-top: 26px; padding: 10px 13px; border: 2px dashed var(--ink); background: var(--white); font-size: clamp(10px,.94vw,14px); font-weight: 850; }
+    .visual-board { position: relative; align-self: center; width: 100%; min-width: 0; aspect-ratio: 3/2; overflow: hidden; border: 2px solid var(--ink); background: var(--paper); }
+    .embedded-visual { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .board-title { position: absolute; top: 8px; left: 50%; z-index: 4; width: min(360px,70%); padding: 9px 16px; background: rgba(247,241,227,.95); text-align: center; transform: translateX(-50%) rotate(.5deg); }
+    .board-title strong { display: block; font-family: var(--display-font); font-size: clamp(22px,2.1vw,31px); font-variation-settings: "wght" 700, "opsz" 72, "SOFT" 20, "WONK" 1; font-weight: 700; letter-spacing: -.01em; text-transform: uppercase; }
+    .phase-row { position: absolute; right: 2.5%; bottom: 5.5%; left: 2.5%; z-index: 4; display: grid; grid-template-columns: repeat(3,1fr); gap: 4.5%; }
+    .phase-card { min-width: 0; min-height: 76px; display: grid; align-content: center; padding: 9px 7px; text-align: center; }
+    .phase-name { font-size: clamp(11px,1vw,14px); font-weight: 900; }
+    .phase-desc { margin-top: 5px; color: var(--muted); font-size: clamp(9px,.76vw,11px); font-weight: 750; }
+    .slide--comparison { grid-template-columns: 1fr; align-content: center; gap: clamp(14px,1.6vw,22px); padding: clamp(42px,4vw,58px) clamp(46px,4.8vw,72px) clamp(40px,3.7vw,54px); }
+    .comparison-heading { text-align: center; }
+    .comparison-heading .eyebrow { margin-bottom: 9px; }
+    .comparison-title { margin: 0; font-family: var(--display-font); font-size: clamp(28px,3.25vw,48px); font-variation-settings: "wght" 700, "opsz" 72, "SOFT" 20, "WONK" 1; font-weight: 700; letter-spacing: -.035em; line-height: 1; }
+    .discovery-prompt { margin: 9px 0 0; color: var(--muted); font-size: clamp(13px,1.1vw,17px); font-weight: 800; }
+    .compare-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: clamp(18px,2.2vw,30px); }
+    .contrast-card { min-width: 0; margin: 0; overflow: hidden; border: 2px solid var(--ink); background: var(--white); }
+    .contrast-visual { display: block; width: 100%; aspect-ratio: 3/2; object-fit: cover; border-bottom: 2px solid var(--ink); }
+    .contrast-sentence { min-height: 72px; display: flex; align-items: center; justify-content: center; padding: 11px 14px; text-align: center; font-size: clamp(17px,1.65vw,25px); font-weight: 900; line-height: 1.2; }
+    .sentence-line { display: inline; white-space: normal; writing-mode: horizontal-tb; text-orientation: mixed; }
+    .token { border-radius: 7px; padding: 0 .12em; transition: color .18s ease, background .18s ease; }
+    .is-highlighted .token-aux { color: var(--wine); background: rgba(140,29,64,.12); }
+    .is-highlighted .token-time { color: var(--olive); background: rgba(200,161,90,.42); }
+    .is-highlighted .token-experience { color: var(--wine); background: rgba(140,29,64,.12); }
+    .is-highlighted .token-past { color: var(--orange); }
+    .discovery-actions { display: flex; justify-content: center; }
+    .reveal-btn, .compare-btn { min-height: 42px; padding: 8px 18px; border: 2px solid var(--ink); color: var(--white); background: var(--cobalt); font-size: 12px; font-weight: 900; cursor: pointer; }
+    .compare-btn { color: var(--ink); background: var(--paper); }
+    .compare-btn[aria-pressed="true"] { color: var(--white); background: var(--olive); }
+    .discovery-actions { gap: 12px; }
+    .rule-reveal { width: min(850px,100%); margin-inline: auto; padding: 10px 14px; border: 2px dashed var(--ink); background: var(--cream); text-align: center; font-size: clamp(12px,1vw,15px); font-weight: 850; }
+    [hidden] { display: none !important; }
+    .progress-track { position: absolute; bottom: 13px; left: 25%; z-index: 6; width: 50%; height: 5px; border: 1px solid var(--ink); background: var(--paper); }
+    .progress-fill { width: 0; height: 100%; background: var(--orange); transition: width .2s ease; }
+    .control-dock { min-height: 54px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; }
+    .control-left { justify-self: start; } .control-center { justify-self: center; display: flex; } .control-right { justify-self: end; }
+    .icon-btn, .nav-btn { height: 44px; border: 2px solid var(--ink); color: var(--ink); background: var(--paper); cursor: pointer; }
+    .icon-btn:disabled, .nav-btn:disabled { opacity: .35; cursor: not-allowed; box-shadow: none; }
+    .icon-btn { width: 48px; display: inline-grid; place-items: center; padding: 0; }
+    .nav-btn { min-width: 105px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 0 18px; font-size: 12px; font-weight: 900; }
+    .nav-btn + .nav-btn { margin-left: -2px; }
+    .nav-btn.primary { color: var(--white); background: var(--cobalt); }
+    button svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+    :focus-visible { outline: 4px solid var(--orange); outline-offset: 3px; }
+    body[data-flow="vertical"] .slide.is-active { animation: enter-vertical .22s ease-out; }
+    @keyframes enter-vertical { from { opacity: 0; transform: translateY(12px); } }
+    @media (max-width: 900px) {
+      .app-shell { padding: 12px 16px 14px; }
+      .topbar { grid-template-columns: minmax(0,1fr) auto; }
+      .brand { display: none; }
+      .lesson-position { grid-column: 2; }
+      .section-nav { justify-self: start; max-width: calc(100vw - 150px); }
+      .content-stage { width: min(100%,calc((100dvh - 145px) * 16 / 9)); }
+      .slide { padding: 48px 38px 42px; }
+    }
+    @media (max-width: 620px) {
+      body { overflow: auto; }
+      .app-shell { height: auto; min-height: 100dvh; grid-template-rows: auto auto auto; }
+      .content-stage { width: 100%; min-height: 650px; aspect-ratio: auto; }
+      .slide, .slide.is-active { min-height: 650px; grid-template-columns: 1fr; align-content: center; padding: 58px 28px 46px; }
+      .slide--comparison.is-active { display: grid; }
+      .compare-grid { grid-template-columns: 1fr; }
+      .visual-board { height: auto; }
+      .phase-card { min-height: 68px; }
+      .nav-btn { min-width: 78px; padding-inline: 10px; }
+      .nav-btn span { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+  </style>
+</head>
+<body data-flow="horizontal">
+  <main class="app-shell">
+    <header class="topbar" aria-label="Lesson navigation">
+      <div class="brand"><p class="brand-kicker">{{COURSE_KICKER}}</p><p class="brand-title">{{COURSE_TITLE}}</p></div>
+      <nav class="section-nav" aria-label="Lesson sections">
+        {{SECTION_TABS}}
+      </nav>
+      <div class="lesson-position" aria-live="polite"><span class="position-label">Current</span><span class="position-value" id="positionValue">01 / 01</span></div>
+    </header>
+
+    <section class="stage-wrap" aria-label="Presentation stage">
+      <div class="content-stage">
+        {{SLIDES_HTML}}
+        <div class="progress-track" aria-label="Lesson progress"><div class="progress-fill" id="progressFill"></div></div>
+      </div>
+    </section>
+
+    <footer class="control-dock" aria-label="Presentation controls">
+      <div class="control-left">
+        <button class="icon-btn" id="orientation" type="button" aria-label="Change flow to vertical" title="Flow: horizontal" aria-pressed="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12h16M8 8l-4 4 4 4M16 8l4 4-4 4"/></svg>
+        </button>
+      </div>
+      <div class="control-center">
+        <button class="nav-btn" id="back" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg><span>Back</span></button>
+        <button class="nav-btn primary" id="next" type="button"><span>Next</span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+      </div>
+      <div class="control-right">
+        <button class="icon-btn" id="fullscreen" type="button" aria-label="Enter fullscreen" title="Fullscreen">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/></svg>
+        </button>
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    (() => {
+      const slides = [...document.querySelectorAll('.slide')];
+      const tabs = [...document.querySelectorAll('.section-tab')];
+      const position = document.getElementById('positionValue');
+      const progress = document.getElementById('progressFill');
+      const back = document.getElementById('back');
+      const next = document.getElementById('next');
+      const orientation = document.getElementById('orientation');
+      const fullscreen = document.getElementById('fullscreen');
+      let index = 0;
+
+      function show(target) {
+        index = Math.max(0, Math.min(slides.length - 1, target));
+        slides.forEach((slide, i) => slide.classList.toggle('is-active', i === index));
+        const section = slides[index]?.dataset.section ?? String(index);
+        tabs.forEach(tab => {
+          if (tab.dataset.target === section) tab.setAttribute('aria-current', 'step');
+          else tab.removeAttribute('aria-current');
+        });
+        position.textContent = `${String(index + 1).padStart(2,'0')} / ${String(slides.length).padStart(2,'0')}`;
+        progress.style.width = `${slides.length ? ((index + 1) / slides.length) * 100 : 0}%`;
+        back.disabled = index === 0;
+        next.disabled = index === slides.length - 1;
+      }
+
+      tabs.forEach(tab => tab.addEventListener('click', () => {
+        const target = slides.findIndex(slide => slide.dataset.section === tab.dataset.target);
+        if (target >= 0) show(target);
+      }));
+      back.addEventListener('click', () => show(index - 1));
+      next.addEventListener('click', () => show(index + 1));
+      orientation.addEventListener('click', () => {
+        const vertical = document.body.dataset.flow !== 'vertical';
+        document.body.dataset.flow = vertical ? 'vertical' : 'horizontal';
+        orientation.setAttribute('aria-pressed', String(vertical));
+        orientation.setAttribute('aria-label', `Change flow to ${vertical ? 'horizontal' : 'vertical'}`);
+        orientation.title = `Flow: ${vertical ? 'vertical' : 'horizontal'}`;
+      });
+      fullscreen.addEventListener('click', async () => {
+        if (!document.fullscreenElement) await document.documentElement.requestFullscreen?.();
+        else await document.exitFullscreen?.();
+      });
+      document.addEventListener('click', event => {
+        const trigger = event.target.closest('[data-reveal-target]');
+        if (!trigger) return;
+        const target = document.getElementById(trigger.dataset.revealTarget);
+        if (!target) return;
+        const willShow = target.hidden;
+        target.hidden = !willShow;
+        trigger.setAttribute('aria-expanded', String(willShow));
+      });
+      document.addEventListener('click', event => {
+        const trigger = event.target.closest('[data-compare-target]');
+        if (!trigger) return;
+        const target = document.getElementById(trigger.dataset.compareTarget);
+        if (!target) return;
+        const nowOn = !target.classList.contains('is-highlighted');
+        target.classList.toggle('is-highlighted', nowOn);
+        trigger.setAttribute('aria-pressed', String(nowOn));
+        trigger.textContent = nowOn ? 'Hide the highlight' : 'Highlight the difference';
+      });
+      document.addEventListener('keydown', event => {
+        if (/INPUT|TEXTAREA|SELECT/.test(event.target.tagName)) return;
+        if (event.key === 'ArrowLeft') show(index - 1);
+        if (event.key === 'ArrowRight') show(index + 1);
+        if (event.key === 'Home') show(0);
+        if (event.key === 'End') show(slides.length - 1);
+      });
+      show(0);
+    })();
+  </script>
+</body>
+</html>
