@@ -1,0 +1,6 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "latex-vocab",
+  "version": "0.2.0",
+  "description": "Vocabulary handouts with IPA or without IPA, bundled editorial fonts and QA."
+}

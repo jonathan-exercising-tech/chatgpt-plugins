@@ -1,0 +1,74 @@
+
+% Copy this file into the task project; do not edit the bundled asset in place.
+\documentclass[10pt,a4paper,landscape]{article}
+\usepackage[margin=20.5mm]{geometry}
+\usepackage{fontspec}
+% Fonts: Be Vietnam Pro (body), Fraunces (title and section headings), Gentium Plus (IPA), IBM Plex Mono (numbers)
+\setmainfont[
+  Path=fonts/,
+  BoldFont=be-vietnam-pro-semibold.ttf,
+  ItalicFont=BeVietnamPro-Italic.ttf,
+  BoldItalicFont=BeVietnamPro-SemiBoldItalic.ttf
+]{be-vietnam-pro-regular.ttf}
+\setsansfont[
+  Path=fonts/,
+  BoldFont=be-vietnam-pro-semibold.ttf,
+  ItalicFont=BeVietnamPro-Italic.ttf
+]{be-vietnam-pro-regular.ttf}
+\newfontfamily\ipafont[Path=fonts/,ItalicFont=GentiumPlus-Italic.ttf]{GentiumPlus-Regular.ttf}
+\newfontfamily\DisplayFont[Path=fonts/]{fraunces-display.ttf}
+\newfontfamily\HeadFont[Path=fonts/]{fraunces-heading.ttf}
+\newfontfamily\NumFont[Path=fonts/]{ibm-plex-mono-regular-vietnamese.ttf}
+\usepackage{array,booktabs,longtable}
+\usepackage[table]{xcolor}
+\usepackage{ragged2e}
+\usepackage{microtype}
+\usepackage{needspace}
+\usepackage{fancyhdr}
+\definecolor{Ink}{HTML}{1E2933}
+\definecolor{Muted}{HTML}{61707D}
+\definecolor{Rule}{HTML}{B8C2C9}
+\definecolor{Header}{HTML}{EDF2F3}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\sffamily\fontsize{9}{13}\selectfont\color{Muted}YLC8 \textendash\ VOCABULARY}
+\fancyhead[R]{\sffamily\fontsize{9}{13}\selectfont\color{Muted}}
+\fancyfoot[C]{\NumFont\fontsize{9}{13}\selectfont\color{Muted}\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\setlength{\headheight}{14pt}
+\setlength{\headsep}{12pt}
+\setlength{\parindent}{0pt}
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.22}
+\setlength{\extrarowheight}{0.8pt}
+\newcolumntype{L}[1]{>{\RaggedRight\arraybackslash}p{#1}}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}m{#1}}
+\newcounter{vocabno}
+\newcommand{\VocabSection}[1]{%
+  \needspace{10\baselineskip}%
+  \vspace{1.05em}\noindent{\HeadFont\fontsize{15}{18}\selectfont\color{Ink}#1}\par\vspace{0.5em}}
+\newcommand{\VocabTableStart}{%
+  \begingroup\hyphenpenalty=10000 \exhyphenpenalty=10000 \fontsize{9.5}{13}\selectfont
+  \begin{longtable}{C{9mm} L{33mm} L{40mm} L{27mm} L{50mm} L{76mm}}
+  \toprule
+  \rowcolor{Header}\centering\bfseries No. & \bfseries Word & \bfseries IPA & \bfseries POS & \bfseries Meaning & \bfseries Example\\
+  \midrule
+  \endfirsthead
+  \toprule
+  \rowcolor{Header}\centering\bfseries No. & \bfseries Word & \bfseries IPA & \bfseries POS & \bfseries Meaning & \bfseries Example\\
+  \midrule
+  \endhead
+  \bottomrule
+  \endfoot}
+\newcommand{\VocabTableEnd}{\end{longtable}\endgroup}
+\newcommand{\Vocab}[5]{\stepcounter{vocabno}{\NumFont\fontsize{8.5}{12.5}\selectfont\color{Muted}\thevocabno} & {\bfseries #1} & {\ipafont\fontsize{10.5}{12.5}\selectfont\textcolor{Muted}{#2}} & {\itshape #3} & #4 & {\fontsize{9}{12.5}\selectfont\itshape #5}\\}
+\begin{document}
+\begin{center}
+{\DisplayFont\fontsize{26}{30}\selectfont\color{Ink}YLC8 \textendash\ Vocabulary}\par
+\vspace{0.35em}
+{\sffamily\fontsize{9.5}{13}\selectfont\color{Muted}}\par
+\end{center}
+\vspace{0.8em}
+\input{vocab-sections.tex}
+\end{document}

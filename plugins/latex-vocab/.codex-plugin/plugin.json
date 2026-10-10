@@ -1,0 +1,11 @@
+{
+  "name": "latex-vocab",
+  "version": "0.2.0",
+  "description": "Vocabulary handouts with IPA or without IPA, bundled editorial fonts and QA.",
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "LaTeX Vocab",
+    "shortDescription": "Vocabulary handouts with bundled fonts and IPA support.",
+    "category": "Education"
+  }
+}

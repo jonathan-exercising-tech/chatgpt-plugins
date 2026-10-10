@@ -1,0 +1,8 @@
+interface:
+  display_name: "LaTeX Vocab"
+  short_description: "Create vocabulary handouts with Fraunces and Be Vietnam Pro"
+  default_prompt: "Use $latex-vocab to create a vocabulary handout from this lesson content."
+  icon_small: "assets/icon.svg"
+  icon_large: "assets/icon.svg"
+policy:
+  allow_implicit_invocation: true
